@@ -6,9 +6,9 @@ Community detection implementation for [Zachary Karate Club](https://en.wikipedi
 
 ## Algorithms
 
-1. **Louvain Method** - Multi-level modularity optimization
-2. **Fast Greedy** - Greedy community merging 
-3. **Hybrid Algorithm** - Custom seed-based approach
+1. **Fast Greedy** 
+2. **Louvain**
+3. **My Algorithm** 
 
 ## Compile & Run
 
@@ -22,8 +22,8 @@ gcc main.c graph.c fastgreedy.c louvain.c original.c -o main
 ```
 1. FastGreedy
 2. Louvain
-3. Hybrid Algorithm
-4. Run All & Compare
+3. My Algorithm
+
 ```
 
 Select an option from the menu to run the algorithm.
@@ -34,6 +34,5 @@ Zachary Karate Club: 34 nodes, 78 edges
 
 ## Output
 
-- Community assignments
 - Modularity score (Q)
-- Performance metrics (ms)
+- Community assignments
