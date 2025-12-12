@@ -24,7 +24,6 @@ gcc main.c graph.c fastgreedy.c louvain.c original.c -o main
 2. Louvain
 3. My Algorithm
 4. All in the same time
-
 ```
 
 Select an option from the menu to run the algorithm.
