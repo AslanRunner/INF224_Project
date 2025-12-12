@@ -23,6 +23,7 @@ gcc main.c graph.c fastgreedy.c louvain.c original.c -o main
 1. FastGreedy
 2. Louvain
 3. My Algorithm
+4. All in the same time
 
 ```
 
