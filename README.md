@@ -1,1 +1,1 @@
-# INF224_Project
+# INF224_Projects
