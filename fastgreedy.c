@@ -34,15 +34,14 @@ void runFastGreedy(Graph *graph) {
 
     for (int i = 0; i < NUM_NODES; i++) communs.node_to_comm[i] = i;
 
-    // Ana dongu: Modularity arttigi surece birlestir
+    // main loop
     while (1) {
         double max_delta_Q = 0.0;
         int best_c1 = -1, best_c2 = -1;
 
-        // Aktif topluluk çiftlerini kontrol et
+        // check actives communities
         for (int i = 0; i < NUM_NODES; i++) {
             for (int j = i + 1; j < NUM_NODES; j++) {
-                // Hizli varlik kontrolu: topluluk ID'leri hala kullaniliyor mu?
                 int i_found = 0, j_found = 0;
                 for(int n = 0; n < NUM_NODES && (!i_found || !j_found); n++) {
                     if(communs.node_to_comm[n] == i) i_found = 1;
@@ -60,7 +59,7 @@ void runFastGreedy(Graph *graph) {
             }
         }
 
-        // Eger iyileistirme varsa birlestir
+        // check improved
         if (max_delta_Q > 0.0001) {
             for (int k = 0; k < NUM_NODES; k++)
                 if (communs.node_to_comm[k] == best_c2)
@@ -75,7 +74,7 @@ void runFastGreedy(Graph *graph) {
     printf("Final Modularity: %.4f\n", final_Q);
     printf("----------------------------------\n");
 
-    // Louvain'deki print_communities fonksiyonunu kullan
+    // print
     int final_membership[NUM_NODES];
     int max_id = -1;
     for(int i = 0; i < NUM_NODES; i++) {
@@ -85,6 +84,5 @@ void runFastGreedy(Graph *graph) {
     }
     
     print_communities(final_membership, max_id, "COMMUNITIES FOUND:");
-
     free(communs.node_to_comm);
 }
