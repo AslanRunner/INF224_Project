@@ -3,7 +3,7 @@
 #include <string.h>
 #include "graph.h"
 
-void initGraph(Graph* graph){ // ilk her sey 0 olsun
+void initGraph(Graph* graph){ 
     graph->num_edges = 0;
     for(int i = 0; i < NUM_NODES; i++){
         graph->degree[i] = 0; 
@@ -13,11 +13,11 @@ void initGraph(Graph* graph){ // ilk her sey 0 olsun
     }
 }
 
-void addEdge(Graph* graph, int src, int dest){ // undirected graph olarak ele aliyoruz
-    src = src - 1; // 1 cikardik cunku indexleri 0'dan baslatmamiz lazim
+void addEdge(Graph* graph, int src, int dest){ // undirected
+    src = src - 1; 
     dest = dest - 1; 
 
-    if(src < 0 || src >= NUM_NODES){ // sinirlari kontrol et
+    if(src < 0 || src >= NUM_NODES){ 
         printf("ERROR(addEdge)\n");
         return;
     }
@@ -26,12 +26,10 @@ void addEdge(Graph* graph, int src, int dest){ // undirected graph olarak ele al
         printf("ERROR (addEdge)\n");
         return;
     }
-
-    // edge ekleme kismi burasi 
-    // eger bag yoksa aralarinda simdi ekliyoruz
+    // add edge
     if(graph->matrix[src][dest] == 0){
         graph->matrix[src][dest] = 1; 
-        graph->matrix[dest][src] = 1; // simetrik oldugu icin 
+        graph->matrix[dest][src] = 1; // simetric
         graph->num_edges++;
         graph->degree[src]++;
         graph->degree[dest]++;
@@ -47,7 +45,7 @@ void loadFromFile(Graph* graph, char* filename){
 
     int src, dest;
 
-    while(fscanf(file, "%d %d", &src, &dest) != EOF){ // 2 sayi var her satirda
+    while(fscanf(file, "%d %d", &src, &dest) != EOF){
         addEdge(graph, src, dest);
     }
     
@@ -65,7 +63,7 @@ void printMatrix(Graph* graph){
     for(int j = 0; j < NUM_NODES; j++){
         printf("%2d ", j + 1);
         for(int k = 0; k < NUM_NODES; k++){
-            printf("%2d ", graph->matrix[j][k]);  // 0 veya 1 yazdiricak
+            printf("%2d ", graph->matrix[j][k]); // 0 or 1
         }
         printf("\n");
     }
@@ -79,9 +77,7 @@ void update_community_count(Communities* communs){
     int max_comm = -1;
 
     for(int i = 0; i < NUM_NODES; i++){
-        if(communs->node_to_comm[i] > max_comm){
-            max_comm = communs->node_to_comm[i];
-        }
+        if(communs->node_to_comm[i] > max_comm) max_comm = communs->node_to_comm[i];        
     }
 
     communs->num_community = max_comm + 1;
@@ -90,9 +86,7 @@ void update_community_count(Communities* communs){
 int get_comm_size(Communities* communs, int comm){
     int count = 0;
     for(int i = 0; i < communs->num_community; i++){
-        if(communs->node_to_comm[i] == comm){
-            count++;
-        }
+        if(communs->node_to_comm[i] == comm) count++;        
     }
     return count;
 }
@@ -104,12 +98,15 @@ void print_communities(int *commties, int max_id, char *title){
     for(int c = 0; c <= max_id; c++) {
         int exists = 0;
         for(int i = 0; i < NUM_NODES; i++)
-            if(commties[i] == c) { exists = 1; break; }
-        
+            if(commties[i] == c) { 
+                exists = 1; 
+                break; 
+            }
         if(exists) {
             printf("Community %d: ", counter++);
-            for(int i = 0; i < NUM_NODES; i++)
+            for(int i = 0; i < NUM_NODES; i++){
                 if(commties[i] == c) printf("%d ", i+1);
+            }
             printf("\n");
         }
     }
@@ -117,21 +114,19 @@ void print_communities(int *commties, int max_id, char *title){
 
 double CalculateModularity(Graph* graph, int* partition){
     double Q = 0.0;
-
     double m_double = (double)(graph->num_edges * 2);
 
     for(int i = 0; i < NUM_NODES; i++){
         for(int j = 0; j < NUM_NODES; j++){
-            
-            if(partition[i] == partition[j]){ // Bu kontrol kismi o gamali yeri ifade ediyor
-                double A_ij =  (double)graph->matrix[i][j]; // 1 veya 0 
-                double k_i = (double)graph->degree[i]; // derecesini tutar
+            if(partition[i] == partition[j]){ // control 
+                double A_ij =  (double)graph->matrix[i][j]; // 1 or 0 
+                double k_i = (double)graph->degree[i]; // degree
                 double k_j = (double)graph->degree[j];
 
-                Q += (A_ij - ((k_i * k_j) / m_double)); // simdi islem kismi (eklenerek gidecek)
+                Q += (A_ij - ((k_i * k_j) / m_double)); // calculation
             }
         }
     }
 
-    return Q / m_double; // en son yine boluyoruz (FORMUL)
+    return Q / m_double; 
 }
