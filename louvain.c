@@ -5,7 +5,7 @@ double calculate_delta_modularity(Graph *graph, Communities *communs, int node, 
     double double_m = 2.0 * graph->num_edges;
     int degree_node = graph->degree[node];
 
-    // Eski topluluk
+    // old community
     double sum_to_old = 0.0, degree_old = 0;
     for (int i = 0; i < num_nodes; i++) {
         if (i != node && communs->node_to_comm[i] == old_com) {
@@ -15,7 +15,7 @@ double calculate_delta_modularity(Graph *graph, Communities *communs, int node, 
     }
     double old_Q = sum_to_old - (degree_old * degree_node / double_m);
 
-    // Yeni topluluk
+    // new community
     double sum_to_new = 0.0, degree_new = 0;
     for (int j = 0; j < num_nodes; j++) {
         if (j != node && communs->node_to_comm[j] == new_comm) {
@@ -33,8 +33,9 @@ void merge_isolated_nodes(Communities *communs){
     
     for (int c = 0; c < communs->num_community; c++) {
         int size = 0;
-        for (int i = 0; i < NUM_NODES; i++)
+        for (int i = 0; i < NUM_NODES; i++){
             if (communs->node_to_comm[i] == c) size++;
+        }    
         if (size > max_size) {
             max_size = size;
             largest_comm = c;
@@ -46,7 +47,6 @@ void merge_isolated_nodes(Communities *communs){
         for (int j = 0; j < NUM_NODES; j++){
             if (communs->node_to_comm[j] == communs->node_to_comm[i]) comm_size++;
         }
-        
         if (comm_size == 1 && communs->node_to_comm[i] != largest_comm)
             communs->node_to_comm[i] = largest_comm;
     }
@@ -202,6 +202,5 @@ void runLouvain(Graph* graph)
     }
 
     print_communities(final_commties, max_final_id, "FINAL COMMUNITIES:");
-
     free(communs.node_to_comm);
 }
