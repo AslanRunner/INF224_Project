@@ -9,7 +9,7 @@ int main() {
 
   int choice;
   printf("\nWhich algorithm do you want to choose ? : \n\n");
-  printf("1. FastGreedy \n2. Louvain \n3. My Algorithm\n\nSelection: ");
+  printf("1. FastGreedy \n2. Louvain \n3. My Algorithm \n4. All in at the same time \n\nSelection: ");
   scanf("%d", &choice);
 
   switch (choice) {
@@ -22,9 +22,15 @@ int main() {
     case 3:
       runMyAlgorithm(&karateGraph);
       break;
+    case 4:
+      runFastGreedy(&karateGraph);
+      runLouvain(&karateGraph);
+      runMyAlgorithm(&karateGraph);
+      break;
     default:
       printf("Gecersiz secim.\n");
   }
 
   return 0;
+
 }
